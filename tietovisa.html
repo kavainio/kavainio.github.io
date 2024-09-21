@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Euroopan Maantiedepeli</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            text-align: center;
+            padding: 50px;
+        }
+        #game-container {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            width: 400px;
+            margin: 0 auto;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div id="game-container">
+    <h1>Euroopan Maantiedepeli</h1>
+    <p id="question"></p>
+    <div id="answers"></div>
+    <p id="feedback" class="hidden"></p>
+</div>
+
+<script>
+    const questions = [
+        {
+            question: "Mikä on Euroopan suurin maa pinta-alaltaan?",
+            options: ["Saksa", "Ranska", "Venäjä", "Espanja"],
+            correct: 2
+        },
+        {
+            question: "Missä maassa Alpit sijaitsevat suurimmaksi osaksi?",
+            options: ["Italia", "Itävalta", "Sveitsi", "Ranska"],
+            correct: 1
+        },
+        {
+            question: "Mikä on Euroopan pisin joki?",
+            options: ["Rein", "Tonava", "Volga", "Dnepr"],
+            correct: 2
+        },
+        {
+            question: "Missä kaupungissa sijaitsee Euroopan parlamentti?",
+            options: ["Bryssel", "Strasbourg", "Luxemburg", "Wien"],
+            correct: 1
+        },
+        {
+            question: "Mikä on Euroopan pienin itsenäinen valtio?",
+            options: ["Monaco", "San Marino", "Andorra", "Vatikaani"],
+            correct: 3
+        },
+        {
+            question: "Mikä meri sijaitsee Ruotsin ja Suomen välillä?",
+            options: ["Pohjanmeri", "Välimeri", "Itämeri", "Mustameri"],
+            correct: 2
+        },
+        {
+            question: "Mikä seuraavista ei ole osa Euroopan unionia?",
+            options: ["Norja", "Tanska", "Kreikka", "Puola"],
+            correct: 0
+        },
+        {
+            question: "Missä maassa sijaitsee Thames-joki?",
+            options: ["Irlanti", "Skotlanti", "Englanti", "Wales"],
+            correct: 2
+        },
+        {
+            question: "Mikä on Balkanin niemimaan suurin valtio pinta-alaltaan?",
+            options: ["Bulgaria", "Serbia", "Romania", "Kroatia"],
+            correct: 2
+        },
+        {
+            question: "Mikä vuoristo erottaa Euroopan ja Aasian?",
+            options: ["Pyreneet", "Karpaatit", "Uralvuoret", "Alpit"],
+            correct: 2
+        }
+    ];
+
+    let currentQuestion = 0;
+
+    const questionElement = document.getElementById('question');
+    const answersElement = document.getElementById('answers');
+    const feedbackElement = document.getElementById('feedback');
+
+    function loadQuestion() {
+        feedbackElement.classList.add('hidden');
+        questionElement.textContent = questions[currentQuestion].question;
+        answersElement.innerHTML = '';
+
+        questions[currentQuestion].options.forEach((option, index) => {
+            const button = document.createElement('button');
+            button.textContent = option;
+            button.onclick = () => checkAnswer(index);
+            answersElement.appendChild(button);
+        });
+    }
+
+    function checkAnswer(selectedIndex) {
+        if (selectedIndex === questions[currentQuestion].correct) {
+            feedbackElement.textContent = 'Oikein!';
+            feedbackElement.style.color = 'green';
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                setTimeout(loadQuestion, 1000); // Lataa seuraava kysymys 1 sekunnin viiveellä
+            } else {
+                feedbackElement.textContent = 'Onnittelut, olet suorittanut pelin!';
+            }
+        } else {
+            feedbackElement.textContent = 'Väärin, yritä uudelleen.';
+            feedbackElement.style.color = 'red';
+        }
+        feedbackElement.classList.remove('hidden');
+    }
+
+    loadQuestion();
+</script>
+
+</body>
+</html>
+
